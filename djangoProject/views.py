@@ -43,7 +43,7 @@ def test_token(request):
 @api_view(['DELETE'])
 def delete_user(request, id):
     try:
-        user = User.objects.get(id=id)
+        user = User.objects.get(pk=id)
         user.delete()
         return Response({"message": "User deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
     except User.DoesNotExist:
