@@ -38,3 +38,16 @@ def signup(request):
 @permission_classes([IsAuthenticated])
 def test_token(request):
     return Response({"passed for {}".format(request.user.email)})
+
+
+@api_view(['DELETE'])
+def delete_user(request, id):
+    try:
+        user = User.objects.get(id=id)
+        user.delete()
+        return Response({"message": "User deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+    except User.DoesNotExist:
+        return Response({"Status": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({"Status": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
